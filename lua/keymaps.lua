@@ -48,4 +48,25 @@ vim.api.nvim_create_autocmd('TextYankPost', {
   end,
 })
 
+-- [[ Custom Commands ]]
+-- Preserve copied text in buffer when pasting
+vim.keymap.set('x', '<leader>p', '"_dP', { noremap = true })
+
+-- Function to switch to the next buffer
+local function next_buffer()
+  vim.cmd 'bnext'
+end
+
+-- Function to switch to the previous buffer
+local function previous_buffer()
+  vim.cmd 'bprevious'
+end
+
+-- Mapping key combinations to the functions
+vim.keymap.set('n', '<C-l>', next_buffer, { noremap = true, silent = true })
+vim.keymap.set('n', '<C-h>', previous_buffer, { noremap = true, silent = true })
+
+-- Define a function to perform global replacement with selected text
+vim.keymap.set('v', '<leader>d', '"ay:%s/\\M<C-R>a//gc<Left><Left><Left>', { noremap = true, silent = true })
+
 -- vim: ts=2 sts=2 sw=2 et
