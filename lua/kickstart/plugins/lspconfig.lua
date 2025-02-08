@@ -169,9 +169,41 @@ return {
       --        For example, to see the options for `lua_ls`, you could go to: https://luals.github.io/wiki/settings/
       local servers = {
         -- clangd = {},
-        gopls = {},
+        gopls = {
+          capabilities = capabilities,
+          settings = {
+            gopls = {
+              analyses = {
+                unusedparams = true,   -- Warn about unused function parameters
+                unusedwrite = true,    -- Warn about unused writes to a variable
+                useany = true,         -- Warn about usage of `interface{}` (discouraged in idiomatic Go)
+                shadow = true,         -- Warn about variable shadowing
+                nilness = true,        -- Warn about potential nil dereferences
+                nonewvars = true,      -- Warn when using `:=` but the variable already exists
+                unusedvariable = true, -- Warn about unused variables
+              },
+              staticcheck = true,      -- Enable additional checks from staticcheck
+              gofumpt = true,          -- Use `gofumpt` for better formatting
+              codelenses = {
+                gc_details = true,     -- Show GC optimization details
+                regenerate_cgo = true, -- Regenerate cgo definitions
+                tidy = true,           -- Run `go mod tidy` via code lens
+                upgrade_dependency = true, -- Upgrade dependencies with a single action
+                test = true,           -- Adds `run test` and `debug test` buttons above functions
+              },
+              hints = {
+                assignVariableTypes = true, -- Show types in variable assignments
+                compositeLiteralFields = true, -- Show struct field names in literals
+                compositeLiteralTypes = true, -- Show type names in literals
+                constantValues = true, -- Show values of constants
+                functionTypeParameters = true, -- Show function type parameters
+                parameterNames = true, -- Show parameter names at call sites
+                rangeVariableTypes = true, -- Show range variable types
+              },
+            },
+          },
+        },
         apex_ls = {},
-        -- pyright = {},
         -- rust_analyzer = {},
         -- ... etc. See `:help lspconfig-all` for a list of all the pre-configured LSPs
         --
@@ -215,6 +247,7 @@ return {
         'golines',
         'gomodifytags',
         'gotests',
+        'pyright',
       })
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
