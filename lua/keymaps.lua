@@ -66,4 +66,14 @@ vim.keymap.set('n', '<C-h>', previous_buffer, { noremap = true, silent = true })
 -- Define a function to perform global replacement with selected text
 vim.keymap.set('v', '<leader>d', '"ay:%s/\\M<C-R>a//gc<Left><Left><Left>', { noremap = true, silent = true })
 
+-- Go-specific if err expansion
+vim.keymap.set('n', '<leader>gi', function()
+  vim.api.nvim_command 'GoIfErr'
+  vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes('<Esc>jf l', true, false, true), 'n', true)
+end, { noremap = true, silent = true, desc = '[G]o [i]f err!=nil' })
+
+vim.keymap.set('v', '<leader>gj', function()
+  vim.api.nvim_command 'GoTagAdd json'
+end, { noremap = true, silent = true, desc = '[G]o Add [J]SON Tag' })
+
 -- vim: ts=2 sts=2 sw=2 et
