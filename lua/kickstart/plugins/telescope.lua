@@ -96,6 +96,9 @@ return {
       vim.keymap.set('n', '<leader>s.', builtin.oldfiles, { desc = '[S]earch Recent Files ("." for repeat)' })
       vim.keymap.set('n', '<leader><leader>', builtin.buffers, { desc = '[ ] Find existing buffers' })
       vim.keymap.set({ 'n', 'v' }, '<leader>g', builtin.buffers, { desc = '[G]o' })
+      vim.keymap.set('n', '<leader>si', function()
+        builtin.find_files { hidden = true }
+      end, { desc = '[S]earch H[i]dden' })
 
       -- Slightly advanced example of overriding default behavior and theme
       vim.keymap.set('n', '<leader>/', function()
