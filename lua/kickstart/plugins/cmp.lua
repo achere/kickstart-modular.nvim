@@ -71,10 +71,10 @@ return {
             select = true,
             behavior = cmp.ConfirmBehavior.Replace,
           },
-          ['<CR>'] = cmp.mapping.confirm {
-            select = true,
-            behavior = cmp.ConfirmBehavior.Replace,
-          },
+          -- ['<CR>'] = cmp.mapping.confirm {
+          --   select = true,
+          --   behavior = cmp.ConfirmBehavior.Replace,
+          -- },
 
           -- If you prefer more traditional completion keymaps,
           -- you can uncomment the following lines
