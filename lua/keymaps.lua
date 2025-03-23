@@ -76,4 +76,27 @@ vim.keymap.set('v', '<leader>gj', function()
   vim.api.nvim_command 'GoTagAdd json'
 end, { noremap = true, silent = true, desc = '[G]o Add [J]SON Tag' })
 
+-- Go DAP keymaps
+vim.keymap.set('n', '<leader>db', function()
+  vim.api.nvim_command 'DapToggleBreakpoint'
+end, { noremap = true, desc = 'Toggle [D]ebug [B]reakpoint' })
+
+vim.keymap.set('n', '<leader>dus', function()
+  local widgets = require 'dap.ui.widgets'
+  local sidebar = widgets.sidebar(widgets.scopes)
+  sidebar.open()
+end, { noremap = true, desc = 'Open [D]eb[u]gging [S]idebar' })
+
+vim.keymap.set('n', '<leader>dgt', function()
+  require('dap-go').debug_test()
+end, { noremap = true, desc = '[D]ebug [G]o [T]est' })
+
+vim.keymap.set('n', '<leader>dgl', function()
+  require('dap-go').debug_last()
+end, { noremap = true, desc = '[D]ebug [G]o [L]ast Test' })
+
+vim.keymap.set('n', '<leader>dso', function()
+  vim.api.nvim_command 'DapStepOver'
+end, { noremap = true, desc = '[D]ebug [S]tep [O]ver' })
+
 -- vim: ts=2 sts=2 sw=2 et
