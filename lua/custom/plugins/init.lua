@@ -54,4 +54,21 @@ return {
       require('dap-go').setup(opts)
     end,
   },
+  -- Add sticky context (function signature)
+  {
+    'nvim-treesitter/nvim-treesitter-context',
+    dependencies = { 'nvim-treesitter/nvim-treesitter' },
+    config = function()
+      require('treesitter-context').setup {
+        enable = true,
+        max_lines = 4, -- How many lines the window should span
+        min_window_height = 0,
+        line_numbers = true,
+        multiline_threshold = 20,
+        trim_scope = 'outer',
+        mode = 'cursor',
+        separator = nil,
+      }
+    end,
+  },
 }
