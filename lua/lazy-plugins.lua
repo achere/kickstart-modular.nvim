@@ -90,9 +90,4 @@ require('lazy').setup({
   },
 })
 
-local cfg = {
-  bind = true,
-  toggle_key = 'M-n',
-}
-require('lsp_signature').setup(cfg)
 -- vim: ts=2 sts=2 sw=2 et

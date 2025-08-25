@@ -198,6 +198,7 @@ return {
       --  When you add nvim-cmp, luasnip, etc. Neovim now has *more* capabilities.
       --  So, we create new capabilities with nvim cmp, and then broadcast that to the servers.
       local capabilities = vim.lsp.protocol.make_client_capabilities()
+      capabilities.offsetEncoding = { 'utf-16' }
       capabilities = vim.tbl_deep_extend('force', capabilities, require('cmp_nvim_lsp').default_capabilities())
 
       -- Enable the following language servers
@@ -216,22 +217,22 @@ return {
           settings = {
             gopls = {
               analyses = {
-                unusedparams = true,   -- Warn about unused function parameters
-                unusedwrite = true,    -- Warn about unused writes to a variable
-                useany = true,         -- Warn about usage of `interface{}` (discouraged in idiomatic Go)
-                shadow = true,         -- Warn about variable shadowing
-                nilness = true,        -- Warn about potential nil dereferences
-                nonewvars = true,      -- Warn when using `:=` but the variable already exists
+                unusedparams = true, -- Warn about unused function parameters
+                unusedwrite = true, -- Warn about unused writes to a variable
+                useany = true, -- Warn about usage of `interface{}` (discouraged in idiomatic Go)
+                shadow = true, -- Warn about variable shadowing
+                nilness = true, -- Warn about potential nil dereferences
+                nonewvars = true, -- Warn when using `:=` but the variable already exists
                 unusedvariable = true, -- Warn about unused variables
               },
-              staticcheck = true,      -- Enable additional checks from staticcheck
-              gofumpt = true,          -- Use `gofumpt` for better formatting
+              staticcheck = true, -- Enable additional checks from staticcheck
+              gofumpt = true, -- Use `gofumpt` for better formatting
               codelenses = {
-                gc_details = true,     -- Show GC optimization details
+                gc_details = true, -- Show GC optimization details
                 regenerate_cgo = true, -- Regenerate cgo definitions
-                tidy = true,           -- Run `go mod tidy` via code lens
+                tidy = true, -- Run `go mod tidy` via code lens
                 upgrade_dependency = true, -- Upgrade dependencies with a single action
-                test = true,           -- Adds `run test` and `debug test` buttons above functions
+                test = true, -- Adds `run test` and `debug test` buttons above functions
               },
               hints = {
                 assignVariableTypes = true, -- Show types in variable assignments
@@ -245,7 +246,6 @@ return {
             },
           },
         },
-        apex_ls = {},
         -- rust_analyzer = {},
         -- ... etc. See `:help lspconfig-all` for a list of all the pre-configured LSPs
         --
