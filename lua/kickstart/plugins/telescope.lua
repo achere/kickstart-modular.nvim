@@ -64,10 +64,13 @@ return {
         defaults = {
           vimgrep_arguments = {
             'rg',
+            '--color=never',
+            '--no-heading',
+            '--with-filename',
             '--line-number',
             '--column',
             '--smart-case',
-            '--no-ignore-vcs',
+            -- Respects .gitignore by default (no --no-ignore flag)
           },
         },
         extensions = {
@@ -93,10 +96,13 @@ return {
       vim.keymap.set('n', '<leader>sr', builtin.resume, { desc = '[S]earch [R]esume' })
       vim.keymap.set('n', '<leader>s.', builtin.oldfiles, { desc = '[S]earch Recent Files ("." for repeat)' })
       vim.keymap.set('n', '<leader><leader>', builtin.buffers, { desc = '[ ] Find existing buffers' })
-      vim.keymap.set({ 'n', 'v' }, '<leader>g', builtin.buffers, { desc = '[G]o' })
       vim.keymap.set('n', '<leader>si', function()
-        builtin.find_files { hidden = true }
-      end, { desc = '[S]earch H[i]dden' })
+        builtin.find_files {
+          hidden = true,
+          no_ignore = true, -- Don't respect .gitignore
+          no_ignore_parent = true, -- Don't respect parent .gitignore
+        }
+      end, { desc = '[S]earch H[i]dden (ignore gitignore)' })
 
       -- Slightly advanced example of overriding default behavior and theme
       vim.keymap.set('n', '<leader>/', function()

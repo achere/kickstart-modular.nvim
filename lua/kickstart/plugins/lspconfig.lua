@@ -98,11 +98,11 @@ return {
 
           -- Fuzzy find all the symbols in your current document.
           --  Symbols are things like variables, functions, types, etc.
-          map('gO', require('telescope.builtin').lsp_document_symbols, 'Open Document Symbols')
+          map('<leader>so', require('telescope.builtin').lsp_document_symbols, '[S]earch [O]utline (document symbols)')
 
           -- Fuzzy find all the symbols in your current workspace.
           --  Similar to document symbols, except searches over your entire project.
-          map('gW', require('telescope.builtin').lsp_dynamic_workspace_symbols, 'Open Workspace Symbols')
+          map('<leader>sO', require('telescope.builtin').lsp_dynamic_workspace_symbols, '[S]earch [O]utline (workspace symbols)')
 
           -- Jump to the type of the word under your cursor.
           --  Useful when you're not sure what type a variable is and you want to see
@@ -292,7 +292,6 @@ return {
         'golines',
         'gomodifytags',
         'gotests',
-        'pyright',
       })
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
