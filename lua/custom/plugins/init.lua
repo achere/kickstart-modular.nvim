@@ -3,6 +3,8 @@
 --
 -- See the kickstart.nvim README for more information
 
+---@module 'lazy'
+---@type LazySpec
 return {
   {
     'mbbill/undotree',
@@ -11,9 +13,7 @@ return {
     -- Theme inspired by Atom
     'navarasu/onedark.nvim',
     priority = 1000,
-    config = function()
-      vim.cmd.colorscheme 'onedark'
-    end,
+    config = function() vim.cmd.colorscheme 'onedark' end,
   },
   {
     'olexsmir/gopher.nvim',
@@ -39,9 +39,7 @@ return {
         transform = 'snakecase',
       },
     },
-    build = function()
-      vim.cmd [[silent! GoInstallDeps]]
-    end,
+    build = function() vim.cmd [[silent! GoInstallDeps]] end,
   },
   {
     'mfussenegger/nvim-dap',
@@ -50,9 +48,7 @@ return {
     'leoluz/nvim-dap-go',
     ft = 'go',
     dependencies = 'mfussenegger/nvim-dap',
-    config = function(_, opts)
-      require('dap-go').setup(opts)
-    end,
+    config = function(_, opts) require('dap-go').setup(opts) end,
   },
   -- Add sticky context (function signature)
   {
