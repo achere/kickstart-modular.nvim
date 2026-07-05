@@ -82,6 +82,11 @@ end
 vim.keymap.set('n', '<C-l>', next_buffer, { noremap = true, silent = true })
 vim.keymap.set('n', '<C-h>', previous_buffer, { noremap = true, silent = true })
 
+-- Delete the current buffer without closing the split/window it lives in.
+vim.keymap.set('n', '<leader>bd', function()
+  require('mini.bufremove').delete(0, false)
+end, { noremap = true, silent = true, desc = '[B]uffer [D]elete' })
+
 -- Define a function to perform global replacement with selected text
 vim.keymap.set('v', '<leader>d', '"ay:%s/\\M<C-R>a//gc<Left><Left><Left>', { noremap = true, silent = true })
 
