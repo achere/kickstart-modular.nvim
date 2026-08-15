@@ -25,6 +25,15 @@ require('conform').setup {
   -- You can also specify external formatters in here.
   formatters_by_ft = {
     lua = { 'stylua' },
+    -- JS/TS (React + Vite): prefer the prettierd daemon, fall back to prettier.
+    javascript = { 'prettierd', 'prettier', stop_after_first = true },
+    javascriptreact = { 'prettierd', 'prettier', stop_after_first = true },
+    typescript = { 'prettierd', 'prettier', stop_after_first = true },
+    typescriptreact = { 'prettierd', 'prettier', stop_after_first = true },
+    json = { 'prettierd', 'prettier', stop_after_first = true },
+    jsonc = { 'prettierd', 'prettier', stop_after_first = true },
+    css = { 'prettierd', 'prettier', stop_after_first = true },
+    html = { 'prettierd', 'prettier', stop_after_first = true },
     -- rust = { 'rustfmt' },
     -- Conform can also run multiple formatters sequentially
     -- python = { "isort", "black" },

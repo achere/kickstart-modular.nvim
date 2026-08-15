@@ -78,9 +78,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
     -- fine-grained highlights inside strings (e.g. `%d`/`%s` printf specifiers and
     -- `\n` escape sequences). Disabling semantic tokens lets treesitter win.
     -- To keep semantic tokens for other languages, guard on `client.name == 'gopls'`.
-    if client and client.server_capabilities.semanticTokensProvider then
-      client.server_capabilities.semanticTokensProvider = nil
-    end
+    if client and client.server_capabilities.semanticTokensProvider then client.server_capabilities.semanticTokensProvider = nil end
 
     if client and client:supports_method('textDocument/documentHighlight', event.buf) then
       local highlight_augroup = vim.api.nvim_create_augroup('kickstart-lsp-highlight', { clear = false })
@@ -154,14 +152,16 @@ local servers = {
       },
     },
   },
-  -- pyright = {},
+  basedpyright = {}, -- Python type checker / language server
+  ruff = {}, -- Python linter + formatter (runs as an LSP)
   -- rust_analyzer = {},
   --
-  -- Some languages (like typescript) have entire language plugins that can be useful:
-  --    https://github.com/pmizio/typescript-tools.nvim
-  --
-  -- But for many setups, the LSP (`ts_ls`) will work just fine
-  -- ts_ls = {},
+  -- TypeScript / JavaScript (React + Vite). `vtsls` wraps tsserver with better
+  -- performance and monorepo handling than the plain `ts_ls`; it drives .ts/.tsx/.js/.jsx.
+  vtsls = {},
+  -- ESLint via its language server: diagnostics + code actions. Formatting is handled
+  -- by Prettier (see conform.lua); use `:EslintFixAll` or `gra` for lint fixes.
+  eslint = {},
 
   stylua = {}, -- Used to format Lua code
 
@@ -224,6 +224,8 @@ vim.list_extend(ensure_installed, {
   'golines',
   'gomodifytags',
   'gotests',
+  'prettierd', -- Fast (daemon) formatter for JS/TS/JSX/TSX/JSON/CSS/HTML
+  'prettier', -- Prettier fallback used when prettierd is unavailable
 })
 
 require('mason-tool-installer').setup { ensure_installed = ensure_installed }

@@ -12,7 +12,27 @@ vim.pack.add { { src = gh 'nvim-treesitter/nvim-treesitter', version = 'main' } 
 -- NOTE: `printf` is an injected grammar (used for %d/%s format specifiers inside
 -- Go's fmt.Printf/Errorf/etc. strings). Injected languages must be installed
 -- explicitly; the FileType auto-installer only installs the buffer's main language.
-local parsers = { 'bash', 'c', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'query', 'vim', 'vimdoc', 'go', 'printf' }
+-- NOTE: `tsx` handles both .tsx and .jsx; `typescript`/`javascript` cover the plain files.
+local parsers = {
+  'bash',
+  'c',
+  'diff',
+  'html',
+  'lua',
+  'luadoc',
+  'markdown',
+  'markdown_inline',
+  'query',
+  'vim',
+  'vimdoc',
+  'go',
+  'printf',
+  'typescript',
+  'tsx',
+  'javascript',
+  'css',
+  'json',
+}
 require('nvim-treesitter').install(parsers)
 
 ---@param buf integer
