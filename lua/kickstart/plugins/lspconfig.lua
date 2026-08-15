@@ -163,6 +163,37 @@ local servers = {
   -- by Prettier (see conform.lua); use `:EslintFixAll` or `gra` for lint fixes.
   eslint = {},
 
+  -- YAML: schema-driven completion, hover docs and validation. SchemaStore covers
+  -- the well-known files (GitHub Actions, compose, ...); the `kubernetes` keyword
+  -- below is yaml-language-server's bundled k8s schema, scoped to manifest dirs so
+  -- it doesn't get applied to unrelated YAML.
+  yamlls = {
+    settings = {
+      yaml = {
+        -- Without this, every manifest whose keys aren't alphabetised gets a
+        -- "wrong ordering of key" diagnostic.
+        keyOrdering = false,
+        schemaStore = { enable = true, url = 'https://www.schemastore.org/api/json/catalog.json' },
+        -- NOTE the direction: key = schema (URL or built-in keyword), value = globs.
+        schemas = {
+          kubernetes = {
+            'k8s/**/*.yaml',
+            'kube/**/*.yaml',
+            'kubernetes/**/*.yaml',
+            'manifests/**/*.yaml',
+            'deploy/**/*.yaml',
+            '*.k8s.yaml',
+          },
+        },
+        -- Formatting stays off: conform.lua formats on save for every filetype and
+        -- falls back to the LSP, so enabling this would silently reformat every YAML
+        -- file on `:w`. To opt in, set this to true or add a `yaml` row to
+        -- `formatters_by_ft` in conform.lua.
+        format = { enable = false },
+      },
+    },
+  },
+
   stylua = {}, -- Used to format Lua code
 
   -- Special Lua Config, as recommended by neovim help docs

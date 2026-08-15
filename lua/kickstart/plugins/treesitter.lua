@@ -32,6 +32,7 @@ local parsers = {
   'javascript',
   'css',
   'json',
+  'yaml',
 }
 require('nvim-treesitter').install(parsers)
 
