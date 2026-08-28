@@ -83,6 +83,36 @@ vim.opt.smartindent = true
 
 -- Line numbers in :Explore
 vim.cmd [[let g:netrw_bufsettings = 'noma nomod nu nobl nowrap ro']]
+
+-- Keep :Explore usable with the jumplist.
+--
+-- By default (g:netrw_fastbrowse = 1) netrw sets `bufhidden=delete` on local
+-- directory listings, so the listing buffer is unloaded the moment you open a
+-- file from it. The jumplist still points at "netrw buffer, line N", so <C-o>
+-- reloads that buffer empty and fails with `E19: Mark has invalid line number`,
+-- dumping you in a blank buffer.
+--
+-- `2` = fast browsing: netrw keeps listing buffers alive (`bufhidden=hide`) and
+-- reuses them, so <C-o> lands back on the real listing with the cursor where you
+-- left it. Trade-off: listings no longer auto-refresh when files change on disk;
+-- press <C-l> inside the netrw window to refresh (netrw's buffer-local <C-l>
+-- shadows the global <C-l> -> :bnext mapping).
+vim.g.netrw_fastbrowse = 2
+
+-- Make <C-o> reliably return to the previous :Explore listing even when you
+-- navigated it with j/k only. netrw opens files with `:keepjumps`, so a plain
+-- <CR> open records no jumplist entry for the listing; this drops one on the
+-- way out so the position is there to jump back to.
+vim.api.nvim_create_autocmd('BufLeave', {
+  group = vim.api.nvim_create_augroup('netrw-jumplist', { clear = true }),
+  desc = 'Record netrw cursor position in the jumplist before opening a file',
+  callback = function(ev)
+    if vim.bo[ev.buf].filetype == 'netrw' then
+      pcall(vim.cmd, "normal! m'")
+    end
+  end,
+})
+
 -- if performing an operation that would fail due to unsaved changes in the buffer (like `:q`),
 -- instead raise a dialog asking if you wish to save the current file(s)
 -- See `:help 'confirm'`
