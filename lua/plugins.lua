@@ -3,7 +3,6 @@
 require 'kickstart.plugins.guess-indent'
 require 'kickstart.plugins.gitsigns'
 require 'kickstart.plugins.which-key'
-require 'kickstart.plugins.tokyonight'
 require 'kickstart.plugins.todo-comments'
 require 'kickstart.plugins.mini'
 require 'kickstart.plugins.telescope'
@@ -26,7 +25,6 @@ require 'kickstart.plugins.treesitter'
 -- require 'kickstart.plugins.lint'
 require 'kickstart.plugins.autopairs'
 require 'kickstart.plugins.neo-tree'
--- require 'kickstart.plugins.gitsigns' -- adds gitsigns recommended keymaps
 
 -- NOTE: You can add your own plugins, configuration, etc from `lua/custom/plugins/*.lua`
 --
