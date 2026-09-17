@@ -7,10 +7,12 @@ vim.pack.add {
   'https://github.com/MunifTanjim/nui.nvim',
 }
 
-vim.keymap.set('n', '\\', '<Cmd>Neotree reveal<CR>', { desc = 'NeoTree reveal', silent = true })
+vim.keymap.set('n', '\\', '<Cmd>Neotree toggle reveal<CR>', { desc = 'NeoTree toggle', silent = true })
 
 require('neo-tree').setup {
   filesystem = {
+    -- Leave `nvim <dir>` / :Explore to netrw; open neo-tree only on demand.
+    hijack_netrw_behavior = 'disabled',
     window = {
       mappings = {
         ['\\'] = 'close_window',
