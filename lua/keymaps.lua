@@ -104,6 +104,11 @@ vim.keymap.set('n', '<leader>bd', function()
   require('mini.bufremove').delete(0, false)
 end, { noremap = true, silent = true, desc = '[b]uffer [d]elete' })
 
+-- Re-read buffers changed on disk (e.g. by an agent). 'autoread' only checks on
+-- focus / shell commands; this runs the check on demand. The LSP then republishes
+-- diagnostics from the reloaded text.
+vim.keymap.set('n', '<leader>br', '<cmd>checktime<CR>', { noremap = true, silent = true, desc = '[b]uffer [r]eload from disk' })
+
 -- Define a function to perform global replacement with selected text
 vim.keymap.set('v', '<leader>d', '"ay:%s/\\M<C-R>a//gc<Left><Left><Left>', { noremap = true, silent = true })
 
