@@ -69,24 +69,101 @@ pcall(require('telescope').load_extension, 'ui-select')
 
 -- See `:help telescope.builtin`
 local builtin = require 'telescope.builtin'
+-- find_files / live_grep with toggles that update the open picker in place:
+--   <M-h> hidden files, <M-i> gitignored files,
+--   <M-f> asks for ripgrep globs (space separated, `!` excludes) in the command line;
+--   the results update while typing, <Esc> restores the previous globs
+local function search(kind)
+  local conf = require('telescope.config').values
+  local finders = require 'telescope.finders'
+  local make_entry = require 'telescope.make_entry'
+  local state = { hidden = false, ignored = false, glob = nil }
+
+  local function add_globs(cmd, globs)
+    for g in vim.gsplit(globs or '', '%s+', { trimempty = true }) do
+      table.insert(cmd, '--glob=' .. g)
+    end
+    return cmd
+  end
+
+  local function flags()
+    local args = { '--glob=!.git/' }
+    if state.hidden then table.insert(args, '--hidden') end
+    if state.ignored then table.insert(args, '--no-ignore') end
+    return args
+  end
+
+  local function title()
+    local function flag(on) return on and '[x]' or '[ ]' end
+    local head = ('%s  <M-h> %s hidden  <M-i> %s ignored'):format(kind == 'files' and 'Find Files' or 'Live Grep', flag(state.hidden), flag(state.ignored))
+    return head .. '  <M-f> glob: ' .. (state.glob or '-')
+  end
+
+  local function files_finder()
+    local cmd = add_globs(vim.list_extend({ 'rg', '--files' }, flags()), state.glob)
+    return finders.new_oneshot_job(cmd, { entry_maker = make_entry.gen_from_file {} })
+  end
+
+  local function grep_finder()
+    return finders.new_job(function(prompt)
+      if prompt == '' then return nil end
+      local cmd = vim.list_extend(vim.list_extend({}, conf.vimgrep_arguments), flags())
+      return vim.list_extend(add_globs(cmd, state.glob), { '-e', prompt })
+    end, make_entry.gen_from_vimgrep {}, nil, vim.uv.cwd())
+  end
+
+  require('telescope.pickers')
+    .new({}, {
+      prompt_title = title(),
+      finder = kind == 'files' and files_finder() or grep_finder(),
+      previewer = kind == 'files' and conf.file_previewer {} or conf.grep_previewer {},
+      sorter = kind == 'files' and conf.file_sorter {} or require('telescope.sorters').highlighter_only {},
+      attach_mappings = function(buf, map)
+        local function refresh()
+          local picker = require('telescope.actions.state').get_current_picker(buf)
+          picker.prompt_border:change_title(title())
+          picker:refresh(kind == 'files' and files_finder() or nil, { reset_prompt = false })
+        end
+        local function toggle(key)
+          return function()
+            state[key] = not state[key]
+            refresh()
+          end
+        end
+        map({ 'i', 'n' }, '<M-h>', toggle 'hidden')
+        map({ 'i', 'n' }, '<M-i>', toggle 'ignored')
+        map({ 'i', 'n' }, '<M-f>', function()
+          local previous = state.glob
+          local function apply(glob)
+            state.glob = glob ~= '' and glob or nil
+            refresh()
+            vim.defer_fn(function() vim.cmd.redraw() end, 120) -- the cmdline blocks normal redraws
+          end
+          local au = vim.api.nvim_create_autocmd('CmdlineChanged', {
+            callback = function() apply(vim.fn.getcmdline()) end,
+          })
+          vim.ui.input({ prompt = 'Glob(s): ', default = previous or '' }, function(glob)
+            vim.api.nvim_del_autocmd(au)
+            apply(glob or previous or '')
+          end)
+        end)
+        return true
+      end,
+    })
+    :find()
+end
+
 vim.keymap.set('n', '<leader>sh', builtin.help_tags, { desc = '[s]earch [h]elp' })
 vim.keymap.set('n', '<leader>sk', builtin.keymaps, { desc = '[s]earch [k]eymaps' })
-vim.keymap.set('n', '<leader>sf', builtin.find_files, { desc = '[s]earch [f]iles' })
+vim.keymap.set('n', '<leader>sf', function() search 'files' end, { desc = '[s]earch [f]iles' })
 vim.keymap.set('n', '<leader>ss', builtin.builtin, { desc = '[s]earch [s]elect Telescope' })
 vim.keymap.set({ 'n', 'v' }, '<leader>sw', builtin.grep_string, { desc = '[s]earch current [w]ord' })
-vim.keymap.set('n', '<leader>sg', builtin.live_grep, { desc = '[s]earch by [g]rep' })
+vim.keymap.set('n', '<leader>sg', function() search 'grep' end, { desc = '[s]earch by [g]rep' })
 vim.keymap.set('n', '<leader>sd', builtin.diagnostics, { desc = '[s]earch [d]iagnostics' })
 vim.keymap.set('n', '<leader>sr', builtin.resume, { desc = '[s]earch [r]esume' })
 vim.keymap.set('n', '<leader>s.', builtin.oldfiles, { desc = '[s]earch Recent Files ("." for repeat)' })
 vim.keymap.set('n', '<leader>sc', builtin.commands, { desc = '[s]earch [c]ommands' })
 vim.keymap.set('n', '<leader><leader>', builtin.buffers, { desc = '[ ] Find existing buffers' })
-vim.keymap.set('n', '<leader>si', function()
-  builtin.find_files {
-    hidden = true,
-    no_ignore = true, -- Don't respect .gitignore
-    no_ignore_parent = true, -- Don't respect parent .gitignore
-  }
-end, { desc = '[s]earch H[i]dden (ignore gitignore)' })
 
 -- Add Telescope-based LSP pickers when an LSP attaches to a buffer.
 -- If you later switch picker plugins, this is where to update these mappings.
