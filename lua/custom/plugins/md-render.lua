@@ -8,9 +8,9 @@ vim.pack.add {
   gh 'delphinus/md-render.nvim',
 }
 
-vim.keymap.set('n', '<leader>mt', '<Plug>(md-render-toggle)', { desc = '[M]arkdown [T]oggle (in place)' })
-vim.keymap.set('n', '<leader>ms', ':MdRender split<CR>', { desc = '[M]arkdown [S]plit (horizontal)' })
-vim.keymap.set('n', '<leader>mv', ':vert MdRender split<CR>', { desc = '[M]arkdown split ([V]ertical)' })
+vim.keymap.set('n', '<leader>mt', '<Plug>(md-render-toggle)', { desc = '[m]arkdown [t]oggle (in place)' })
+vim.keymap.set('n', '<leader>ms', ':MdRender split<CR>', { desc = '[m]arkdown [s]plit (horizontal)' })
+vim.keymap.set('n', '<leader>mv', ':vert MdRender split<CR>', { desc = '[m]arkdown split ([v]ertical)' })
 
 -- Render buffers pad blank lines with spaces (box-drawing width), so native
 -- `{`/`}` paragraph motion -- which only stops on truly empty lines -- skips

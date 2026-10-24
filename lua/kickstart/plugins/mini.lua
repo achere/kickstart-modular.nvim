@@ -14,9 +14,9 @@ end
 -- Better Around/Inside textobjects
 --
 -- Examples:
---  - va)  - [V]isually select [A]round [)]paren
---  - yiiq - [Y]ank [I]nside [I]+1 [Q]uote
---  - ci'  - [C]hange [I]nside [']quote
+--  - va)  - [v]isually select [a]round [)]paren
+--  - yiiq - [y]ank [i]nside [i]+1 [q]uote
+--  - ci'  - [c]hange [i]nside [']quote
 require('mini.ai').setup {
   -- NOTE: Avoid conflicts with the built-in incremental selection mappings on Neovim>=0.12 (see `:help treesitter-incremental-selection`)
   mappings = {
@@ -28,9 +28,9 @@ require('mini.ai').setup {
 
 -- Add/delete/replace surroundings (brackets, quotes, etc.)
 --
--- - saiw) - [S]urround [A]dd [I]nner [W]ord [)]Paren
--- - sd'   - [S]urround [D]elete [']quotes
--- - sr)'  - [S]urround [R]eplace [)] [']
+-- - saiw) - [s]urround [a]dd [i]nner [w]ord [)]Paren
+-- - sd'   - [s]urround [d]elete [']quotes
+-- - sr)'  - [s]urround [r]eplace [)] [']
 require('mini.surround').setup()
 
 -- Simple and easy statusline.

@@ -29,7 +29,7 @@ vim.diagnostic.config {
   },
 }
 
-vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostic [Q]uickfix list' })
+vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostic [q]uickfix list' })
 
 local inline_diagnostics = true
 vim.keymap.set('n', '<leader>td', function()
@@ -38,7 +38,7 @@ vim.keymap.set('n', '<leader>td', function()
     virtual_text = inline_diagnostics,
     underline = inline_diagnostics and { severity = { min = vim.diagnostic.severity.WARN } },
   }
-end, { desc = '[T]oggle inline [D]iagnostics' })
+end, { desc = '[t]oggle inline [d]iagnostics' })
 
 -- Exit terminal mode in the builtin terminal with a shortcut that is a bit easier
 -- for people to discover. Otherwise, you normally need to press <C-\><C-n>, which
@@ -102,7 +102,7 @@ vim.keymap.set('n', '<C-h>', previous_buffer, { noremap = true, silent = true })
 -- Delete the current buffer without closing the split/window it lives in.
 vim.keymap.set('n', '<leader>bd', function()
   require('mini.bufremove').delete(0, false)
-end, { noremap = true, silent = true, desc = '[B]uffer [D]elete' })
+end, { noremap = true, silent = true, desc = '[b]uffer [d]elete' })
 
 -- Define a function to perform global replacement with selected text
 vim.keymap.set('v', '<leader>d', '"ay:%s/\\M<C-R>a//gc<Left><Left><Left>', { noremap = true, silent = true })
@@ -111,33 +111,33 @@ vim.keymap.set('v', '<leader>d', '"ay:%s/\\M<C-R>a//gc<Left><Left><Left>', { nor
 vim.keymap.set('n', '<leader>gi', function()
   vim.api.nvim_command 'GoIfErr'
   vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes('<Esc>jf l', true, false, true), 'n', true)
-end, { noremap = true, silent = true, desc = '[G]o [i]f err!=nil' })
+end, { noremap = true, silent = true, desc = '[g]o [i]f err!=nil' })
 
 vim.keymap.set('v', '<leader>gj', function()
   vim.api.nvim_command 'GoTagAdd json'
-end, { noremap = true, silent = true, desc = '[G]o Add [J]SON Tag' })
+end, { noremap = true, silent = true, desc = '[g]o Add [j]SON Tag' })
 
 -- Go DAP keymaps
 vim.keymap.set('n', '<leader>db', function()
   vim.api.nvim_command 'DapToggleBreakpoint'
-end, { noremap = true, desc = 'Toggle [D]ebug [B]reakpoint' })
+end, { noremap = true, desc = 'Toggle [d]ebug [b]reakpoint' })
 
 vim.keymap.set('n', '<leader>dus', function()
   local widgets = require 'dap.ui.widgets'
   local sidebar = widgets.sidebar(widgets.scopes)
   sidebar.open()
-end, { noremap = true, desc = 'Open [D]eb[u]gging [S]idebar' })
+end, { noremap = true, desc = 'Open [d]eb[u]gging [s]idebar' })
 
 vim.keymap.set('n', '<leader>dgt', function()
   require('dap-go').debug_test()
-end, { noremap = true, desc = '[D]ebug [G]o [T]est' })
+end, { noremap = true, desc = '[d]ebug [g]o [t]est' })
 
 vim.keymap.set('n', '<leader>dgl', function()
   require('dap-go').debug_last()
-end, { noremap = true, desc = '[D]ebug [G]o [L]ast Test' })
+end, { noremap = true, desc = '[d]ebug [g]o [l]ast Test' })
 
 vim.keymap.set('n', '<leader>dso', function()
   vim.api.nvim_command 'DapStepOver'
-end, { noremap = true, desc = '[D]ebug [S]tep [O]ver' })
+end, { noremap = true, desc = '[d]ebug [s]tep [o]ver' })
 
 -- vim: ts=2 sts=2 sw=2 et

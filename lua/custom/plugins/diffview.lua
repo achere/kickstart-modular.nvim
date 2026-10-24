@@ -17,9 +17,9 @@ require('diffview').setup {
 }
 
 -- Keymaps for easier access
-vim.keymap.set('n', '<leader>vh', ':DiffviewFileHistory %<CR>', { desc = '[V]iew git [H]istory (current file)' })
-vim.keymap.set('n', '<leader>vH', ':DiffviewFileHistory<CR>', { desc = '[V]iew git [H]istory (all)' })
-vim.keymap.set('n', '<leader>vd', ':DiffviewOpen<CR>', { desc = '[V]iew git [D]iff (current changes)' })
-vim.keymap.set('n', '<leader>vc', ':DiffviewClose<CR>', { desc = '[V]iew [C]lose diffview' })
+vim.keymap.set('n', '<leader>vh', ':DiffviewFileHistory %<CR>', { desc = '[v]iew git [h]istory (current file)' })
+vim.keymap.set('n', '<leader>vH', ':DiffviewFileHistory<CR>', { desc = '[v]iew git [H]istory (all)' })
+vim.keymap.set('n', '<leader>vd', ':DiffviewOpen<CR>', { desc = '[v]iew git [d]iff (current changes)' })
+vim.keymap.set('n', '<leader>vc', ':DiffviewClose<CR>', { desc = '[v]iew [c]lose diffview' })
 
 -- vim: ts=2 sts=2 sw=2 et

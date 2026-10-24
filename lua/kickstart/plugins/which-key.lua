@@ -8,10 +8,10 @@ require('which-key').setup {
   icons = { mappings = vim.g.have_nerd_font },
   -- Document existing key chains
   spec = {
-    { '<leader>b', group = '[B]uffer' },
-    { '<leader>s', group = '[S]earch', mode = { 'n', 'v' } },
-    { '<leader>t', group = '[T]oggle' },
-    { '<leader>h', group = 'Git [H]unk', mode = { 'n', 'v' } },
+    { '<leader>b', group = '[b]uffer' },
+    { '<leader>s', group = '[s]earch', mode = { 'n', 'v' } },
+    { '<leader>t', group = '[t]oggle' },
+    { '<leader>h', group = 'Git [h]unk', mode = { 'n', 'v' } },
     { 'gr', group = 'LSP Actions', mode = { 'n' } },
   },
 }
