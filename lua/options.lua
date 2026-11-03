@@ -113,6 +113,18 @@ vim.api.nvim_create_autocmd('BufLeave', {
   end,
 })
 
+-- Terraform templates (`templatefile()`) take the filetype of the format they render:
+-- `policy.json.tftpl` is json, `init.sh.tftpl` is sh. A bare `foo.tftpl` has no hint,
+-- so it falls back to terraform (HCL also highlights `${...}`).
+vim.filetype.add {
+  extension = {
+    tftpl = function(path, bufnr)
+      local rendered = path:match '%.(%w+)%.tftpl$'
+      return rendered and vim.filetype.match { filename = 'x.' .. rendered, buf = bufnr } or 'terraform'
+    end,
+  },
+}
+
 -- if performing an operation that would fail due to unsaved changes in the buffer (like `:q`),
 -- instead raise a dialog asking if you wish to save the current file(s)
 -- See `:help 'confirm'`
