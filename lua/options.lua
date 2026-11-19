@@ -81,6 +81,11 @@ vim.opt.tabstop = 4
 vim.opt.shiftwidth = 4
 vim.opt.smartindent = true
 
+-- Load `.nvim.lua` (also `.nvimrc`, `.exrc`) from the directory nvim starts in, for
+-- per-project macros and settings. Neovim asks once to trust each file and remembers
+-- its hash, so a changed file asks again. See `:help 'exrc'` and `:help :trust`.
+vim.o.exrc = true
+
 -- Line numbers in :Explore
 vim.cmd [[let g:netrw_bufsettings = 'noma nomod nu nobl nowrap ro']]
 
