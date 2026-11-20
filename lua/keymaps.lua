@@ -82,8 +82,10 @@ vim.api.nvim_create_autocmd('TextYankPost', {
 })
 
 -- [[ Custom Commands ]]
--- Preserve copied text in buffer when pasting
-vim.keymap.set('x', '<leader>p', '"_dP', { noremap = true })
+-- Paste over the selection without overwriting the unnamed register.
+-- Visual `P` does this natively; `"_dP` mis-places text when the selection
+-- ends at end of line (cursor steps left after the delete).
+vim.keymap.set('x', '<leader>p', 'P', { noremap = true, desc = '[p]aste without yanking selection' })
 
 -- Function to switch to the next buffer
 local function next_buffer()
