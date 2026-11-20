@@ -21,3 +21,17 @@ Upstream is merged in from the `upstream` remote.
   own: `autoread` only checks on focus, `:checktime` and shell commands, so the buffer
   and its LSP diagnostics stay stale. `<leader>br` runs `:checktime` on demand. A timer
   was rejected on purpose; unsaved buffers would hit the blocking W12 prompt.
+- Diffview is the maintained fork `dlyongemallo/diffview-plus.nvim`, tracking `main`:
+  its `vX.Y` tags fail vim.pack's strict semver, so `version = '*'` finds nothing.
+  Diff-window colours (red old / green new for changed lines) and the cursor line are
+  set per window through `winhighlight` in its `diff_buf_win_enter` hook
+  (`custom/plugins/diffview.lua`). The colour values live in
+  `custom/plugins/colorscheme.lua` (onedark `setup`). On diff lines Neovim draws an
+  fg-less `CursorLine` as an underline, so the cursor-line groups are high-priority
+  (ctermfg set) and their bg covers the diff colours. A window has one `CursorLine`,
+  so a CursorMoved/DiffUpdated autocmd points it at `DiffCursorLineOld/New` when the
+  cursor is on a diff line, else `DiffCursorLine`. A blended overlay (decoration
+  provider) that keeps the changed-text colour was tried and dropped: Neovim blends
+  the text colour too.
+- `nvim_get_hl(0, { link = false })` follows the current window's `winhighlight`
+  (`syn_get_final_id` uses curwin). Follow `link` by hand to read the global group.
