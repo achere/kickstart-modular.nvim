@@ -8,6 +8,49 @@ vim.pack.add {
   gh 'delphinus/md-render.nvim',
 }
 
+-- Renders wrap at the window width, not the plugin's default 80-column cap.
+-- The cap only lowers the width; a preview never renders wider than its
+-- window. Keep it finite: the first build of a preview runs at this width
+-- before the plugin narrows it to the window. Needs md-render >= 37d9b1e
+-- (#73); older revisions ignore it and keep the 80-column cap.
+vim.g.md_render_max_width = 1000
+
+-- TODO: delete this block once https://github.com/delphinus/md-render.nvim/pull/92
+-- is merged and md-render is updated (`vim.pack.update`).
+--
+-- md-render draws a thematic break (`---`, `<hr>`) as the indent plus
+-- `max_width` columns of `─`. `max_width` already counts the indent, so each
+-- rule is 2 columns wider than the window and wraps onto a second row. Trim
+-- rules to `max_width` after each render, and their highlight with them: an
+-- extmark past the end of its line is an error. With the upstream fix
+-- installed, this trims nothing.
+do
+  local ContentBuilder = require('md-render.content_builder').ContentBuilder
+  local render_document = ContentBuilder.render_document
+  function ContentBuilder:render_document(lines, opts)
+    local ret = render_document(self, lines, opts)
+    local max_width = (opts or {}).max_width or 80
+    local trimmed = {} -- 0-indexed line -> new byte length
+    for i, line in ipairs(self.lines) do
+      local indent = line:match '^%s*'
+      local rule = line:sub(#indent + 1)
+      if rule ~= '' and rule:gsub('─', '') == '' and vim.api.nvim_strwidth(line) > max_width then
+        self.lines[i] = indent .. string.rep('─', math.max(1, max_width - vim.api.nvim_strwidth(indent)))
+        trimmed[i - 1] = #self.lines[i]
+      end
+    end
+    for _, hl in ipairs(self.highlights) do
+      local len = trimmed[hl.line]
+      if len then
+        for _, group in ipairs(hl.groups) do
+          if group.end_col and group.end_col > len then group.end_col = len end
+        end
+      end
+    end
+    return ret
+  end
+end
+
 vim.keymap.set('n', '<leader>mt', '<Plug>(md-render-toggle)', { desc = '[m]arkdown [t]oggle (in place)' })
 vim.keymap.set('n', '<leader>ms', ':MdRender split<CR>', { desc = '[m]arkdown [s]plit (horizontal)' })
 vim.keymap.set('n', '<leader>mv', ':vert MdRender split<CR>', { desc = '[m]arkdown split ([v]ertical)' })

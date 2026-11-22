@@ -42,3 +42,10 @@ Upstream is merged in from the `upstream` remote.
   It passes `-C<cwd>` because diffview otherwise picks the current buffer's repo.
   Commits are checked with `rev-parse --verify <rev>^{commit}`: without `^{commit}`,
   any well-formed full SHA passes even when the commit is missing.
+- md-render (`custom/plugins/md-render.lua`) renders at the window width through
+  `vim.g.md_render_max_width`, which needs md-render >= 37d9b1e. `nvim-pack-lock.json`
+  is git-ignored, so each machine needs `vim.pack.update` to get that revision. The
+  `ContentBuilder:render_document` wrapper there trims `---`/`<hr>` rules, which the
+  plugin draws 2 columns past the window. It wraps plugin internals, so a plugin
+  update can break it. Delete it once delphinus/md-render.nvim#92 is merged and
+  installed.
