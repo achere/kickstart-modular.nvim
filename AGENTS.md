@@ -35,3 +35,10 @@ Upstream is merged in from the `upstream` remote.
   the text colour too.
 - `nvim_get_hl(0, { link = false })` follows the current window's `winhighlight`
   (`syn_get_final_id` uses curwin). Follow `link` by hand to read the global group.
+- `:Review base..head [-- paths]` (`custom/plugins/review.lua`) is the entry point
+  for scripts (`nvim -c 'Review a..b'`): it shows the range's changes under nvim's
+  cwd. Its header comment is the API reference: update it with any change to the
+  command. Callers depend on `:Review`, not diffview; only `open_diff` knows the plugin.
+  It passes `-C<cwd>` because diffview otherwise picks the current buffer's repo.
+  Commits are checked with `rev-parse --verify <rev>^{commit}`: without `^{commit}`,
+  any well-formed full SHA passes even when the commit is missing.
