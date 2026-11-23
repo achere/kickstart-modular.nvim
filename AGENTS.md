@@ -10,6 +10,12 @@ Upstream is merged in from the `upstream` remote.
   `[s]earch [O]utline`. Upstream kickstart uses capitals everywhere; do not copy
   that. Applies to which-key group names and mnemonic comments too.
 
+## Formatting
+
+`stylua` formats Lua with `.stylua.toml` (also run on save by conform). Format only
+your own files; skip `lua/kickstart/`: it is upstream code, and a reformat conflicts
+with the next `upstream` merge.
+
 ## Caveats
 
 - `<leader>b` is the `[b]uffer` group (`<leader>bd`, `<leader>br`). Upstream's
@@ -54,9 +60,7 @@ Upstream is merged in from the `upstream` remote.
   hunk, with no message. diffview's `--selected-row` was rejected: it moves the new
   side only, and needs a repo-relative `--selected-file`.
 - md-render (`custom/plugins/md-render.lua`) renders at the window width through
-  `vim.g.md_render_max_width`, which needs md-render >= 37d9b1e. `nvim-pack-lock.json`
-  is git-ignored, so each machine needs `vim.pack.update` to get that revision. The
-  `ContentBuilder:render_document` wrapper there trims `---`/`<hr>` rules, which the
-  plugin draws 2 columns past the window. It wraps plugin internals, so a plugin
-  update can break it. Delete it once delphinus/md-render.nvim#92 is merged and
-  installed.
+  `vim.g.md_render_max_width`, which needs md-render >= f371b88: older revisions keep
+  the 80-column cap or draw `---`/`<hr>` rules 2 columns past the window.
+  `nvim-pack-lock.json` is git-ignored, so each machine needs `vim.pack.update` to get
+  that revision.

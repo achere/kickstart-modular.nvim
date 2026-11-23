@@ -94,9 +94,7 @@ end
 
 -- `^{commit}` makes git look the object up: a well-formed full SHA alone passes
 -- `--verify` even when the commit is not in the repo (e.g. a shallow checkout).
-local function has_commit(cwd, rev)
-  return vim.system({ 'git', 'rev-parse', '--verify', '--quiet', rev .. '^{commit}' }, { cwd = cwd }):wait().code == 0
-end
+local function has_commit(cwd, rev) return vim.system({ 'git', 'rev-parse', '--verify', '--quiet', rev .. '^{commit}' }, { cwd = cwd }):wait().code == 0 end
 
 local function fail(msg) vim.notify('Review: ' .. msg, vim.log.levels.ERROR) end
 

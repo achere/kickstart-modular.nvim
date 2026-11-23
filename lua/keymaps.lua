@@ -88,23 +88,17 @@ vim.api.nvim_create_autocmd('TextYankPost', {
 vim.keymap.set('x', '<leader>p', 'P', { noremap = true, desc = '[p]aste without yanking selection' })
 
 -- Function to switch to the next buffer
-local function next_buffer()
-  vim.cmd 'bnext'
-end
+local function next_buffer() vim.cmd 'bnext' end
 
 -- Function to switch to the previous buffer
-local function previous_buffer()
-  vim.cmd 'bprevious'
-end
+local function previous_buffer() vim.cmd 'bprevious' end
 
 -- Mapping key combinations to the functions
 vim.keymap.set('n', '<C-l>', next_buffer, { noremap = true, silent = true })
 vim.keymap.set('n', '<C-h>', previous_buffer, { noremap = true, silent = true })
 
 -- Delete the current buffer without closing the split/window it lives in.
-vim.keymap.set('n', '<leader>bd', function()
-  require('mini.bufremove').delete(0, false)
-end, { noremap = true, silent = true, desc = '[b]uffer [d]elete' })
+vim.keymap.set('n', '<leader>bd', function() require('mini.bufremove').delete(0, false) end, { noremap = true, silent = true, desc = '[b]uffer [d]elete' })
 
 -- Re-read buffers changed on disk (e.g. by an agent). 'autoread' only checks on
 -- focus / shell commands; this runs the check on demand. The LSP then republishes
@@ -120,14 +114,10 @@ vim.keymap.set('n', '<leader>gi', function()
   vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes('<Esc>jf l', true, false, true), 'n', true)
 end, { noremap = true, silent = true, desc = '[g]o [i]f err!=nil' })
 
-vim.keymap.set('v', '<leader>gj', function()
-  vim.api.nvim_command 'GoTagAdd json'
-end, { noremap = true, silent = true, desc = '[g]o Add [j]SON Tag' })
+vim.keymap.set('v', '<leader>gj', function() vim.api.nvim_command 'GoTagAdd json' end, { noremap = true, silent = true, desc = '[g]o Add [j]SON Tag' })
 
 -- Go DAP keymaps
-vim.keymap.set('n', '<leader>db', function()
-  vim.api.nvim_command 'DapToggleBreakpoint'
-end, { noremap = true, desc = 'Toggle [d]ebug [b]reakpoint' })
+vim.keymap.set('n', '<leader>db', function() vim.api.nvim_command 'DapToggleBreakpoint' end, { noremap = true, desc = 'Toggle [d]ebug [b]reakpoint' })
 
 vim.keymap.set('n', '<leader>dus', function()
   local widgets = require 'dap.ui.widgets'
@@ -135,16 +125,10 @@ vim.keymap.set('n', '<leader>dus', function()
   sidebar.open()
 end, { noremap = true, desc = 'Open [d]eb[u]gging [s]idebar' })
 
-vim.keymap.set('n', '<leader>dgt', function()
-  require('dap-go').debug_test()
-end, { noremap = true, desc = '[d]ebug [g]o [t]est' })
+vim.keymap.set('n', '<leader>dgt', function() require('dap-go').debug_test() end, { noremap = true, desc = '[d]ebug [g]o [t]est' })
 
-vim.keymap.set('n', '<leader>dgl', function()
-  require('dap-go').debug_last()
-end, { noremap = true, desc = '[d]ebug [g]o [l]ast Test' })
+vim.keymap.set('n', '<leader>dgl', function() require('dap-go').debug_last() end, { noremap = true, desc = '[d]ebug [g]o [l]ast Test' })
 
-vim.keymap.set('n', '<leader>dso', function()
-  vim.api.nvim_command 'DapStepOver'
-end, { noremap = true, desc = '[d]ebug [s]tep [o]ver' })
+vim.keymap.set('n', '<leader>dso', function() vim.api.nvim_command 'DapStepOver' end, { noremap = true, desc = '[d]ebug [s]tep [o]ver' })
 
 -- vim: ts=2 sts=2 sw=2 et

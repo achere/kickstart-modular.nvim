@@ -54,7 +54,9 @@ local function map_channels(f)
   end
   return out
 end
-local function blend(fg, bg, alpha) return map_channels(function(ch) return ch(fg) * alpha + ch(bg) * (1 - alpha) end) end
+local function blend(fg, bg, alpha)
+  return map_channels(function(ch) return ch(fg) * alpha + ch(bg) * (1 - alpha) end)
+end
 -- `c` moved by the step from the Normal bg to the CursorLine bg.
 local function cursor_step(c, normal_bg, cursorline_bg)
   return map_channels(function(ch) return ch(c) + ch(cursorline_bg) - ch(normal_bg) end)
@@ -137,9 +139,7 @@ local function update_cursorline(win)
     local lnum = vim.api.nvim_win_get_cursor(win)[1]
     if vim.api.nvim_win_call(win, function() return vim.fn.diff_hlID(lnum, 1) end) ~= 0 then target = target .. side end
   end
-  if target ~= current then
-    vim.api.nvim_set_option_value('winhighlight', merge_winhl(winhl, { CursorLine = target }), { win = win, scope = 'local' })
-  end
+  if target ~= current then vim.api.nvim_set_option_value('winhighlight', merge_winhl(winhl, { CursorLine = target }), { win = win, scope = 'local' }) end
 end
 local function update_cursorlines(tab)
   for _, win in ipairs(vim.api.nvim_tabpage_list_wins(tab or 0)) do

@@ -115,7 +115,11 @@ local function md_heading_line(buf, anchor)
   for i, l in ipairs(vim.api.nvim_buf_get_lines(buf, 0, -1, false)) do
     local f = l:match '^%s*(```+)' or l:match '^%s*(~~~+)'
     if f then
-      if not fence then fence = f:sub(1, 3) elseif f:sub(1, 3) == fence then fence = nil end
+      if not fence then
+        fence = f:sub(1, 3)
+      elseif f:sub(1, 3) == fence then
+        fence = nil
+      end
     elseif not fence then
       local text = l:match '^ ? ? ?#+%s+(.-)%s*$'
       if text then

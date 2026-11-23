@@ -38,9 +38,7 @@ require('gopher').setup {
 -- plugin is installed or updated. Mirrors the build handling in `lua/pack.lua`.
 vim.api.nvim_create_autocmd('PackChanged', {
   callback = function(ev)
-    if ev.data.spec.name == 'gopher.nvim' and (ev.data.kind == 'install' or ev.data.kind == 'update') then
-      pcall(vim.cmd, 'silent! GoInstallDeps')
-    end
+    if ev.data.spec.name == 'gopher.nvim' and (ev.data.kind == 'install' or ev.data.kind == 'update') then pcall(vim.cmd, 'silent! GoInstallDeps') end
   end,
 })
 

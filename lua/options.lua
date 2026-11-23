@@ -112,9 +112,7 @@ vim.api.nvim_create_autocmd('BufLeave', {
   group = vim.api.nvim_create_augroup('netrw-jumplist', { clear = true }),
   desc = 'Record netrw cursor position in the jumplist before opening a file',
   callback = function(ev)
-    if vim.bo[ev.buf].filetype == 'netrw' then
-      pcall(vim.cmd, "normal! m'")
-    end
+    if vim.bo[ev.buf].filetype == 'netrw' then pcall(vim.cmd, "normal! m'") end
   end,
 })
 
