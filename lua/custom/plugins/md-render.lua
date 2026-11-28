@@ -11,9 +11,7 @@ vim.pack.add {
 -- Renders wrap at the window width, not the plugin's default 80-column cap.
 -- The cap only lowers the width; a preview never renders wider than its
 -- window. Keep it finite: the first build of a preview runs at this width
--- before the plugin narrows it to the window. Needs md-render >= f371b88
--- (#92): revisions before 37d9b1e (#73) ignore it and keep the 80-column cap,
--- and those before f371b88 draw `---` rules 2 columns past the window.
+-- before the plugin narrows it to the window. Needs md-render >= f371b88.
 vim.g.md_render_max_width = 1000
 
 vim.keymap.set('n', '<leader>mt', '<Plug>(md-render-toggle)', { desc = '[m]arkdown [t]oggle (in place)' })

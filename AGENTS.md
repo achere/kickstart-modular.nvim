@@ -60,7 +60,5 @@ with the next `upstream` merge.
   hunk, with no message. diffview's `--selected-row` was rejected: it moves the new
   side only, and needs a repo-relative `--selected-file`.
 - md-render (`custom/plugins/md-render.lua`) renders at the window width through
-  `vim.g.md_render_max_width`, which needs md-render >= f371b88: older revisions keep
-  the 80-column cap or draw `---`/`<hr>` rules 2 columns past the window.
-  `nvim-pack-lock.json` is git-ignored, so each machine needs `vim.pack.update` to get
-  that revision.
+  `vim.g.md_render_max_width`; it needs md-render >= f371b88. `nvim-pack-lock.json` is
+  git-ignored, so each machine needs `vim.pack.update` to get that revision.
